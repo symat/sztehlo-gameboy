@@ -1,10 +1,26 @@
+#ifndef __STEHLO_GAMEBOY_BUTTONS__
+#define __STEHLO_GAMEBOY_BUTTONS__
+
 
 #define PORT_SW_A   PORTB4
 #define PORT_SW_B   PORTB3
 
 // these values are updated by the read_inputs function
 uint16_t btn_right_btn1_btn2 = 0;
-uint16_t btn_top_left_down = 0;
+uint16_t btn_up_left_down = 0;
+uint16_t prev_btn_right_btn1_btn2 = 0;
+uint16_t prev_btn_up_left_down = 0;
+
+
+uint8_t button_state[] = {0, 0, 0, 0, 0, 0};
+
+#define BUTTON_UP 0
+#define BUTTON_LEFT 1
+#define BUTTON_DOWN 2
+#define BUTTON_RIGHT 3
+#define BUTTON_BTN1 4
+#define BUTTON_BTN2 5
+
 
 
 void init_gameboy_inputs() {    
@@ -29,15 +45,13 @@ void change_gameboy_input_channel(uint8_t pin) {
   }
 }
 
-
-
-void read_inputs(uint8_t pin, uint16_t* adc) {
-  change_gameboy_input_channel(pin);
-
+void read_stable_adc(uint16_t* adc) {
+  uint16_t old_adc = *adc;
   while(1) {
     uint16_t old_adc = *adc;
 
-    ADCSRA |= (1 << ADSC); // start the ADC conversion
+    // start the ADC conversion
+    ADCSRA |= (1 << ADSC); 
 
     // wait for ADC
     while((ADCSRA & (1 << ADSC)) > 0) ;
@@ -53,12 +67,43 @@ void read_inputs(uint8_t pin, uint16_t* adc) {
   }
 }
 
+void read_input(uint8_t pin, uint16_t* adc, uint8_t* button_state) {
+  change_gameboy_input_channel(pin);
+  read_stable_adc(adc);
 
-void read_all_inputs() { 
-  read_inputs(PB3, &btn_top_left_down);
-  read_inputs(PB4, &btn_right_btn1_btn2);
-  // update_state();
+  if (*adc > 546) {
+    button_state[2] = 0;
+    if (*adc > 747) {
+      button_state[1] = 0;
+      if (*adc > 920) button_state[0] = 0;
+      else button_state[0] = 1;
+    } else {
+      button_state[1] = 1;
+      if (*adc > 628) button_state[0] = 0;
+      else button_state[0] = 1;
+    }
+  } else {
+    button_state[2] = 1;
+    if (*adc > 430) {
+      button_state[1] = 0;
+      if (*adc > 483) button_state[0] = 0;
+      else button_state[0] = 1;
+    } else {
+      button_state[1] = 1;
+      if (*adc > 388) button_state[0] = 0;
+      else button_state[0] = 1;
+    }
+  }
 
 
 }
 
+
+
+
+void read_all_inputs() { 
+  read_input(PB3, &btn_up_left_down, button_state);
+  read_input(PB4, &btn_right_btn1_btn2, button_state+3);
+}
+
+#endif // __STEHLO_GAMEBOY_BUTTONS__

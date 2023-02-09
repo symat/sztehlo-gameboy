@@ -1,5 +1,6 @@
 #include "buttons.h"
 #include "display.h"
+#include "tones.h"
 
 
 // Standard Arduino headers
@@ -63,9 +64,47 @@ const unsigned char snake_image[] PROGMEM = {
   0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+// Lawrence of Arabia, main theme
+static const uint16_t main_theme_freq[] PROGMEM = {
+  NOTE_5_D, NOTE_4_A, NOTE_4_FS, NOTE_4_G, NOTE_4_AS, NOTE_5_CS,
+  NOTE_5_D, NOTE_4_A, NOTE_4_FS, NOTE_4_G, NOTE_4_DS, NOTE_4_CS,
+  NOTE_4_D, NOTE_4_A, NOTE_4_G, NOTE_5_C, NOTE_4_AS, NOTE_4_A, 
+  NOTE_4_B, NOTE_5_CS
+};
+
+static const uint8_t main_theme_lengths[] PROGMEM = {
+  8, 12, 4, 2, 2, 2, 
+  8, 12, 4, 2, 2, 2, 
+  8, 8, 8, 8, 8, 16, 2, 2
+};
+
+
+
+static const byte music_on[] PROGMEM = {
+  B00111100, 
+  B00111100, 
+  B00111100, 
+  B01111110, 
+  B11111111,
+  B00000000,
+  B00000000,
+  B00000000
+};
+
+static const byte music_off[] PROGMEM = {
+  B00111100, 
+  B00111100, 
+  B00111100, 
+  B01000010, 
+  B10000001,
+  B00100100,
+  B00011000,
+  B00100100
+};
+
 
 void setup() {
-  DDRB = 0b00000010;    // set PB1 as output (for the speaker)
+  tones_init();
   display_init();       // initialise the screen
   init_gameboy_inputs();
 }
@@ -80,17 +119,53 @@ void loop() {
 
     display_char_f6x8(10, 2,"SW B:");
 
+  uint8_t music_should_play = 0;
+  uint8_t button1_prev = 0;
+  uint8_t button2_prev = 0;
+
+  unsigned long current_time = millis();
 
   while(1) {
-
-
+  
+    button1_prev = button_state[BUTTON_BTN1];
+    button2_prev = button_state[BUTTON_BTN2];
     read_all_inputs();
+    
+    if(!button1_prev && button_state[BUTTON_BTN1]) {
+      music_should_play = !music_should_play;
+      if(!music_should_play)  silence();
+    }
+    
+    if(!button2_prev && button_state[BUTTON_BTN2]) {
+      current_time = millis();
+    }
+
+    update_tones();  
+    if(!still_playing() && music_should_play) play_tones(main_theme_freq, main_theme_lengths, sizeof(main_theme_lengths));
+
+
+
     draw_barcode(1, btn_right_btn1_btn2);
-    draw_barcode(3, btn_top_left_down);
+    draw_barcode(3, btn_up_left_down);
     display_char_f6x8(40, 0, "        ");
     display_char_f6x8(40, 2, "        ");
     doNumber(40, 0, btn_right_btn1_btn2);
-    doNumber(40github, 2, btn_top_left_down);
+    doNumber(40, 2, btn_up_left_down);
+
+    display_draw_bmp(20, 6, 27, 6, button_state[BUTTON_LEFT] ? one : zero);
+    display_draw_bmp(48, 6, 55, 6, button_state[BUTTON_RIGHT] ? one : zero);
+    display_draw_bmp(34, 5, 41, 5, button_state[BUTTON_UP] ? one : zero);
+    display_draw_bmp(34, 7, 41, 7, button_state[BUTTON_DOWN] ? one : zero);
+
+
+    display_draw_bmp(100, 5, 107, 5, button_state[BUTTON_BTN1] ? one : zero);
+    display_draw_bmp(110, 5, 117, 5, button_state[BUTTON_BTN2] ? one : zero);
+
+    display_draw_bmp(80, 5, 87, 5, music_should_play ? music_on : music_off);
+
+    display_char_f6x8(64, 7, "time:           ");
+    doNumber(96, 7, current_time);
+
     delay(10);
 
   }

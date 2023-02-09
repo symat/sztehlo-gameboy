@@ -1,3 +1,6 @@
+#ifndef __STEHLO_GAMEBOY_FONTS__
+#define __STEHLO_GAMEBOY_FONTS__
+
 #include <avr/pgmspace.h>
 
 /* Standard ASCII 6x8 font */
@@ -100,3 +103,6 @@ static const uint8_t displayxled_font6x8 [] PROGMEM = {
   0x00, 0x1C, 0xA0, 0xA0, 0xA0, 0x7C, // y
   0x00, 0x44, 0x64, 0x54, 0x4C, 0x44  // z
 };
+
+
+#endif //__STEHLO_GAMEBOY_FONTS__

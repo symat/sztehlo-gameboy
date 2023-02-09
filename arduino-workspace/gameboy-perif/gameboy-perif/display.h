@@ -1,3 +1,6 @@
+#ifndef __STEHLO_GAMEBOY_DISPLAY__
+#define __STEHLO_GAMEBOY_DISPLAY__
+
 
 #include "fonts.h"
 
@@ -191,3 +194,5 @@ void display_draw_bmp(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, const uint
   }
  
 }
+
+#endif //__STEHLO_GAMEBOY_DISPLAY__
