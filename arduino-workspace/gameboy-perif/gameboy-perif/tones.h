@@ -128,6 +128,7 @@ const uint16_t* current_tone_counter = 0;
 const uint8_t* current_tone_lengths = 0;   
 
 
+
 void silence() {
   TCCR1 = 0x90;              // stop the TCCR1 counter
   current_tone_counter = 0;

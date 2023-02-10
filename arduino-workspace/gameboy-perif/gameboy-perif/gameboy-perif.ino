@@ -144,7 +144,6 @@ void loop() {
     if(!still_playing() && music_should_play) play_tones(main_theme_freq, main_theme_lengths, sizeof(main_theme_lengths));
 
 
-
     draw_barcode(1, btn_right_btn1_btn2);
     draw_barcode(3, btn_up_left_down);
     display_char_f6x8(40, 0, "        ");

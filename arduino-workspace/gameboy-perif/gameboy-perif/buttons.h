@@ -94,11 +94,7 @@ void read_input(uint8_t pin, uint16_t* adc, uint8_t* button_state) {
       else button_state[0] = 1;
     }
   }
-
-
 }
-
-
 
 
 void read_all_inputs() { 
