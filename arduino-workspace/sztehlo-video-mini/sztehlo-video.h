@@ -1,11 +1,3 @@
-/* 
-
-     Video driver a Sztehlo Gameboy-hoz
- Ha Arduino Uno-val használjuk, akkor a következő bekötést végezzük el:
-
-
-*/
-
 #include "fonts.h"
 
 #define DIGITAL_WRITE_HIGH(PORT) PORTB |= (1 << PORT)
