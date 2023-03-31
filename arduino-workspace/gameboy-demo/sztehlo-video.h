@@ -234,4 +234,14 @@ uint8_t videoInvert() {
   videoSendCommand(is_video_inverted ? 0xA7 : 0xA6);
 }
 
+
+void videoPrintBits(uint8_t x, uint8_t page, uint8_t number) {
+  for (int i = 7; i >= 0; i--) {
+    int bit = (number >> i) & 0b00000001;
+    videoPrintNumber(x, page, bit);
+    x += 6;
+  }
+}
+
+
 #endif // __SZTEHLO_GAMEBOY_VIDEO__

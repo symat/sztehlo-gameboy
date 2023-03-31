@@ -20,8 +20,8 @@ uint8_t button_state_old = 0;
 #define _BUTTON_ACTION_1_BIT 4
 #define _BUTTON_ACTION_2_BIT 5
 
-#define SET_BUTTON_BIT_HIGH(BIT) button_state |= (1 << BIT)
-#define SET_BUTTON_BIT_LOW(BIT) button_state &= ~(1 << BIT)
+#define SET_BUTTON_BIT_HIGH(BIT) button_state |= (0x01 << BIT)
+#define SET_BUTTON_BIT_LOW(BIT) button_state &= ~(0x01 << BIT)
 
 
 #define BUTTON_LEFT     (0x01 & (button_state >> _BUTTON_LEFT_BIT))
@@ -89,26 +89,26 @@ void buttonReadInput(uint8_t pin, uint16_t* adc, uint8_t bit0, uint8_t bit1, uin
   buttonReadStableAdc(adc);
 
   if (*adc > 546) {
-    SET_BUTTON_BIT_LOW(2);
+    SET_BUTTON_BIT_LOW(bit2);
     if (*adc > 747) {
-      SET_BUTTON_BIT_LOW(1);
-      if (*adc > 920) SET_BUTTON_BIT_LOW(0);
-      else SET_BUTTON_BIT_HIGH(0);
+      SET_BUTTON_BIT_LOW(bit1);
+      if (*adc > 920) SET_BUTTON_BIT_LOW(bit0);
+      else SET_BUTTON_BIT_HIGH(bit0);
     } else {
-      SET_BUTTON_BIT_HIGH(1);
-      if (*adc > 628) SET_BUTTON_BIT_LOW(0);
-      else SET_BUTTON_BIT_HIGH(0);
+      SET_BUTTON_BIT_HIGH(bit1);
+      if (*adc > 628) SET_BUTTON_BIT_LOW(bit0);
+      else SET_BUTTON_BIT_HIGH(bit0);
     }
   } else {
-    SET_BUTTON_BIT_HIGH(2);
+    SET_BUTTON_BIT_HIGH(bit2);
     if (*adc > 430) {
-      SET_BUTTON_BIT_LOW(1);
-      if (*adc > 483) SET_BUTTON_BIT_LOW(0);
-      else SET_BUTTON_BIT_HIGH(0);
+      SET_BUTTON_BIT_LOW(bit1);
+      if (*adc > 483) SET_BUTTON_BIT_LOW(bit0);
+      else SET_BUTTON_BIT_HIGH(bit0);
     } else {
-      SET_BUTTON_BIT_HIGH(1);
-      if (*adc > 388) SET_BUTTON_BIT_LOW(0);
-      else SET_BUTTON_BIT_HIGH(0);
+      SET_BUTTON_BIT_HIGH(bit1);
+      if (*adc > 388) SET_BUTTON_BIT_LOW(bit0);
+      else SET_BUTTON_BIT_HIGH(bit0);
     }
   }
 }
