@@ -8,8 +8,6 @@
 // these values are updated by the read_inputs function
 uint16_t btn_right_btn1_btn2 = 0;
 uint16_t btn_up_left_down = 0;
-uint16_t prev_btn_right_btn1_btn2 = 0;
-uint16_t prev_btn_up_left_down = 0;
 
 
 uint8_t button_state[] = {0, 0, 0, 0, 0, 0};

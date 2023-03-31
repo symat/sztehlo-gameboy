@@ -1,3 +1,14 @@
+#ifndef __STEHLO_GAMEBOY_VIDEO__
+#define __STEHLO_GAMEBOY_VIDEO__
+
+/* 
+
+     Video driver a Sztehlo Gameboy-hoz
+ Ha Arduino Uno-val használjuk, akkor a következő bekötést végezzük el:
+
+
+*/
+
 #include "fonts.h"
 
 #define DIGITAL_WRITE_HIGH(PORT) PORTB |= (1 << PORT)
@@ -13,6 +24,7 @@
 #define SSD1306_SDA   PORTB0  // SDA, az Arduino Uno-n ez a 8-as digital pin
 #define SSD1306_SA    0x78  // Slave address (first 7 bits)
 
+uint8_t is_video_inverted = 0;
 
 void videoSendByte(uint8_t byte_){
   uint8_t i;
@@ -152,6 +164,17 @@ void videoFillScreen(uint8_t fillData){
   }
 }
 
+// egy adott (widthPixel, heightPage) méretű téglalap kitöltése egy adott bájttal
+void videoFillRect(uint8_t xPixel, uint8_t yPage, uint8_t widthPixel, uint8_t heightPage, uint8_t fillData) { 
+  for (uint8_t i=0; i<heightPage; i++) { 
+    videoStartPixels(xPixel, i+yPage);
+    for (uint8_t j=0; j<widthPixel; j++) { 
+      videoSendByte(fillData);
+    }
+    videoEndPixels();
+  }
+}
+
 // egy adott (widthPixel, heightPage) méretű bitmap rajzolása adott (xPixel, yPage) pozícióba
 void videoDrawBitmap(uint8_t xPixel, uint8_t yPage, uint8_t widthPixel, uint8_t heightPage, const uint8_t bitmap[]) { 
   for (uint8_t i=0; i<heightPage; i++) { 
@@ -204,3 +227,11 @@ uint8_t videoPixelColor(uint8_t x, uint8_t y, const uint8_t bitmap[], int16_t of
   uint16_t bitmapPage = (y - offsetY) / 8;
   return (pgm_read_byte(&bitmap[bitmapPage * width + (x - offsetX)]) >> ((y - offsetY) % 8)) & 0x01;
 }
+
+
+uint8_t videoInvert() {
+  is_video_inverted = !is_video_inverted;
+  videoSendCommand(is_video_inverted ? 0xA7 : 0xA6);
+}
+
+#endif // __STEHLO_GAMEBOY_VIDEO__
