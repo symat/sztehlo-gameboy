@@ -2,11 +2,7 @@
 #define __SZTEHLO_GAMEBOY_VIDEO__
 
 /* 
-
-     Video driver a Sztehlo Gameboy-hoz
- Ha Arduino Uno-val használjuk, akkor a következő bekötést végezzük el:
-
-
+ Video driver a Sztehlo Gameboy-hoz
 */
 
 #include "fonts.h"

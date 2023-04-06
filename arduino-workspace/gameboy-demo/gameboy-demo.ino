@@ -22,14 +22,15 @@ const unsigned char bitmap_smiley[] PROGMEM = {
   0x18, 0x18, 0x1c, 0x0c, 0x0c, 0x0e, 0x06, 0x03, 0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+
 // Lawrence of Arabia, main theme
-static const uint16_t lawrence_freq[] PROGMEM = {
+static const uint16_t lawrence_notes[] PROGMEM = {
   NOTE_5_D, NOTE_4_A, NOTE_4_FS, NOTE_4_G, NOTE_4_AS, NOTE_5_CS,
   NOTE_5_D, NOTE_4_A, NOTE_4_FS, NOTE_4_G, NOTE_4_DS, NOTE_4_CS,
   NOTE_4_D, NOTE_4_A, NOTE_4_G, NOTE_5_C, NOTE_4_AS, NOTE_4_A, NOTE_4_B, NOTE_5_CS
 };
 
-static const uint8_t lawrence_lengths[] PROGMEM = {
+static const uint8_t lawrence_note_lengths[] PROGMEM = {
   8, 12, 4, 2, 2, 2,
   8, 12, 4, 2, 2, 2,
   8, 8, 8, 8, 8, 16, 2, 2
@@ -51,7 +52,7 @@ void resetVideo() {
 
 
 void setup() {
-  // resetVideo(); // ez csak akkor kell, ha arduino-t használunk, a gameboy-on nem
+  // resetVideo(); // ez csak akkor kell, ha arduino-t használunk, a gameboy-on nem működik
   soundInit();
   videoInit();
   buttonsInit();
@@ -70,7 +71,6 @@ void loop() {
   videoPrintText(100, 0, "   ");
   videoPrintNumber(100, 0, button_state);
   videoPrintBits(63, 2, button_state);
-
 
 
   if (BUTTON_PUSHED_ACTION_1) {
@@ -92,7 +92,7 @@ void loop() {
   }
 
   if (sound_enabled) {
-    if (!soundIsPlaying()) soundPlayTones(lawrence_freq, lawrence_lengths, 20);
+    if (!soundIsPlaying()) soundPlayTones(lawrence_notes, lawrence_note_lengths, 20);
     else soundUpdateTones();
   } else {
     if (soundIsPlaying()) soundStop();
