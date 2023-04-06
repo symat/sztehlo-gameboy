@@ -1,6 +1,6 @@
 /* 
    Playing tones in th background, using a timer to toggle PIN PB1.
-   
+
    If using Arduino Uno, connect the buzzer to PIN 9.
 */
 
@@ -9,6 +9,11 @@
 
 #define NOTE_PAUSE 0
 
+
+// the following notes are defined for 8MHz clock speed 
+// used in the Sztehlo Gameboy (ATtiny85 internal clock)
+// using them on Arduino Uno (16MHz) will result every note 
+// to sound one octave higher
 #define NOTE_0_C 0x0BEF
 #define NOTE_0_CS 0x0BE2
 #define NOTE_0_D 0x0BD5
