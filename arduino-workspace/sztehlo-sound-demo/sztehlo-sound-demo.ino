@@ -3,9 +3,14 @@
   A sztehlo-sound.h olyan függvényeket tartalmaz, amik segítségével
   zenét játszhatunk le a háttérben.
 
-  Arduino Uno-n csatlakoztassuk a hangszórót a 9-es lábra.
+  Ez a demo csak Arduino-n (pl Arduino Uno-n) működik!
+  A gameboy-on használjuk a gameboy-demo/sztehlo-sound.h fájlt!
+
+  A hangszórót egy kisebb (200-300 Ohm) ellenállással csatlakoztassuk 
+  a 9-es kimenet és a föld közé!
 */
 
+#include "sztehlo-sound.h"
 
 // A 'Lawrence of Arabia' című film zenéje
 static const uint16_t lawrence_notes[] PROGMEM = {
@@ -38,6 +43,6 @@ void loop() {
 
     // itt következne a program többi része, ahol pl a gombokat olvassuk be, számításokat
     // végzünk vagy épp a képernyőt frissítjük. Az aktuális hangjegy közben folyamatosan
-    //  szól majd a háttérben, hála a sztehlo-sound-ban beállított timer konfigutációnak
+    //  szól majd a háttérben.
     delay(50);
 }
