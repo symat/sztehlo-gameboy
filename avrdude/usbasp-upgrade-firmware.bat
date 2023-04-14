@@ -9,12 +9,13 @@ avrdude.exe -p atmega8 -c usbasp -P usb || exit /b
 
 
 
-:: fuse overwrite
-
-avrdude.exe -p atmega8 -c usbasp -P usb  -B 200 -U hfuse:w:0xC9:m -U lfuse:w:0xEF:m   || exit /b
-
-
 
 :: flashing
 
 avrdude.exe -p atmega8 -c usbasp -P usb  -B 1 -U flash:w:usbasp.atmega8.2011-05-28.hex   || exit /b
+
+
+
+:: fuse overwrite
+
+avrdude.exe -p atmega8 -c usbasp -P usb  -B 20 -U hfuse:w:0xC9:m -U lfuse:w:0xEF:m   || exit /b
