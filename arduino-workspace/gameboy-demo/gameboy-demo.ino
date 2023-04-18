@@ -66,7 +66,7 @@ void loop() {
 
   videoDrawBitmap(smiley_x_offset, 4, 32, 4, bitmap_smiley);
   delay(50);
-  buttonReadAllInputs();
+  buttonsReadAllInputs();
 
   videoPrintText(100, 0, "   ");
   videoPrintNumber(100, 0, button_state);

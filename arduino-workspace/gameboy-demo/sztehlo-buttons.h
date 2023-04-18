@@ -62,7 +62,7 @@ void buttonsChangeAdcInputChannel(uint8_t pin) {
   }
 }
 
-void buttonReadStableAdc(uint16_t* adc) {
+void buttonsReadStableAdc(uint16_t* adc) {
   uint16_t old_adc = *adc;
   while(1) {
     uint16_t old_adc = *adc;
@@ -84,9 +84,9 @@ void buttonReadStableAdc(uint16_t* adc) {
   }
 }
 
-void buttonReadInput(uint8_t pin, uint16_t* adc, uint8_t bit0, uint8_t bit1, uint8_t bit2) {
+void buttonsReadInput(uint8_t pin, uint16_t* adc, uint8_t bit0, uint8_t bit1, uint8_t bit2) {
   buttonsChangeAdcInputChannel(pin);
-  buttonReadStableAdc(adc);
+  buttonsReadStableAdc(adc);
 
   if (*adc > 546) {
     SET_BUTTON_BIT_LOW(bit2);
@@ -113,10 +113,10 @@ void buttonReadInput(uint8_t pin, uint16_t* adc, uint8_t bit0, uint8_t bit1, uin
   }
 }
 
-void buttonReadAllInputs() { 
+void buttonsReadAllInputs() { 
   button_state_old = button_state;
-  buttonReadInput(PB3, &btn_up_left_down, _BUTTON_UP_BIT, _BUTTON_LEFT_BIT, _BUTTON_DOWN_BIT);
-  buttonReadInput(PB4, &btn_right_btn1_btn2, _BUTTON_RIGHT_BIT, _BUTTON_ACTION_1_BIT, _BUTTON_ACTION_2_BIT);
+  buttonsReadInput(PB3, &btn_up_left_down, _BUTTON_UP_BIT, _BUTTON_LEFT_BIT, _BUTTON_DOWN_BIT);
+  buttonsReadInput(PB4, &btn_right_btn1_btn2, _BUTTON_RIGHT_BIT, _BUTTON_ACTION_1_BIT, _BUTTON_ACTION_2_BIT);
 }
 
 #endif // __SZTEHLO_GAMEBOY_BUTTONS__
