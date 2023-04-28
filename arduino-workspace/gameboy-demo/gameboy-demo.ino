@@ -41,18 +41,8 @@ uint8_t sound_enabled = 1;
 uint8_t smiley_x_offset = 0;
 uint8_t smiley_speed = 1;
 
-void resetVideo() {
-  pinMode(11, OUTPUT);
-  digitalWrite(11, LOW);
-  delay(10);
-  digitalWrite(11, HIGH);
-  delay(50);
-}
-
-
 
 void setup() {
-  // resetVideo(); // ez csak akkor kell, ha arduino-t használunk, a gameboy-on nem működik
   soundInit();
   videoInit();
   buttonsInit();
