@@ -40,9 +40,8 @@ uint8_t button_state_old = 0;
 #define BUTTON_PUSHED_ACTION_2 (button_state & ~button_state_old & (0x01 << _BUTTON_ACTION_2_BIT))
 
 #define BUTTON_PUSHED_ANY (button_state & ~button_state_old)
-#define BUTTON_PUSHED_ARROW (button_state & ~button_state_old & 0b00001111)
-#define BUTTON_PUSHED_ACTION (button_state & ~button_state_old & 0b00110000)
-
+#define BUTTON_PUSHED_ARROW (button_state & ~button_state_old & 0b11110000)
+#define BUTTON_PUSHED_ACTION (button_state & ~button_state_old & 0b00001100)
 
 void buttonsInit() {    
   // ADCSRA bits:

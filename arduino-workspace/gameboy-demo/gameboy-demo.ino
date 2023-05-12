@@ -1,10 +1,10 @@
 #include "sztehlo-buttons.h"
 #include "sztehlo-video.h"
 #include "sztehlo-sound.h"
+#include "sztehlo-eeprom.h"
 
 
 // Standard Arduino headers, use them if needed
-#include <EEPROM.h>
 #include <avr/pgmspace.h>
 #include <avr/sleep.h>
 #include <avr/interrupt.h>  // needed for the additional interrupt
