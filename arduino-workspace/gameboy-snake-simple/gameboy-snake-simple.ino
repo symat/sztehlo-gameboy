@@ -9,7 +9,7 @@
 #define BOX_PIXELS 8
 
 // ha elértük a maximális méretét a kígyónak, akkor nyerünk:
-#define MAX_SNAKE_LENGTH 7
+#define MAX_SNAKE_LENGTH 15
 
 // ennyi ezredmásodperc telik el két kígyó mozgás között
 // (ezt csökkentsük/növeljük, ha gyorsítani/lassítani akarunk a játékon)
