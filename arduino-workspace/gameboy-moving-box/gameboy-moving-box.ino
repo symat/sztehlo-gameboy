@@ -15,7 +15,7 @@ uint8_t current_position_y = 3;  // 0..7
 
 
 // a doboz újra rajzolása
-void redraw_box() {
+void redrawBox() {
   // feketére állítjuk a korábban kirajzolt kocka helyét
   videoFillRect(previous_position_x * BOX_PIXELS, previous_position_y, BOX_PIXELS, 1, BLACK_SCREEN_BYTE);
   
@@ -25,7 +25,7 @@ void redraw_box() {
 
 
 
-void print_coordinates() {
+void printCoordinates() {
     videoPrintText(0, 0, "  ,   ");
     videoPrintNumber(0, 0, current_position_x);
     videoPrintNumber(24, 0, current_position_y);
@@ -35,14 +35,14 @@ void setup() {
   videoInit();
   buttonsInit();
   videoFillScreen(BLACK_SCREEN_BYTE);
-  print_coordinates();
-  redraw_box();
+  printCoordinates();
+  redrawBox();
 }
 
 void loop() {
   if(previous_position_x != current_position_x || previous_position_y != current_position_y) {
-    print_coordinates();
-    redraw_box();
+    printCoordinates();
+    redrawBox();
     previous_position_x = current_position_x;
     previous_position_y = current_position_y;
   }
