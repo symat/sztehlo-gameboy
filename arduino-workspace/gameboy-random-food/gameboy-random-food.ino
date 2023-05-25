@@ -40,8 +40,12 @@ void newRandomFood() {
 
 
   // új véletlen koordináták számolása az ételnek:
-  food_x = random(NUM_BOXES_X);
-  food_y = random(NUM_BOXES_Y);
+  // ha az új étel véletlenül pont a régi helyére esne, vagy a bal felső sarokba 
+  // a pontszám helyére kerülne, akkor újra próbáljuk
+  while((food_x == current_position_x && food_y == current_position_y) || (food_y == 0 && food_x < 2)) {
+    food_x = random(NUM_BOXES_X);
+    food_y = random(NUM_BOXES_Y);
+  }
 
   // kirajzoljuk az ételt
   videoFillRect(food_x * BOX_PIXELS, food_y, BOX_PIXELS, 1, 0b01010101);
@@ -62,9 +66,9 @@ void loop() {
     previous_position_x = current_position_x;
     previous_position_y = current_position_y;
     if(current_position_x == food_x && current_position_y == food_y) {
-      newRandomFood();
       score++;
       printScore();
+      newRandomFood();
     }
   }
 
