@@ -34,13 +34,17 @@ void printScore() {
 }
 
 void newRandomFood() {
+  // újra inicializáljuk a véletlen szám generátort, az indulás óta eltelt mikroszekundumok alapján
+  // ha ezt a sort kihagyjuk, akkor ujraindítás után mindíg ugyanott fognak az ételek egymás után megjelenni
+  randomSeed(micros());
+
+
   // új véletlen koordináták számolása az ételnek:
   food_x = random(NUM_BOXES_X);
   food_y = random(NUM_BOXES_Y);
 
   // kirajzoljuk az ételt
   videoFillRect(food_x * BOX_PIXELS, food_y, BOX_PIXELS, 1, 0b01010101);
-
 }
 
 void setup() {
@@ -54,14 +58,14 @@ void setup() {
 
 void loop() {
   if(previous_position_x != current_position_x || previous_position_y != current_position_y) {
+    redrawBoxes();
+    previous_position_x = current_position_x;
+    previous_position_y = current_position_y;
     if(current_position_x == food_x && current_position_y == food_y) {
       newRandomFood();
       score++;
       printScore();
     }
-    redrawBox();
-    previous_position_x = current_position_x;
-    previous_position_y = current_position_y;
   }
 
   buttonsReadAllInputs();
